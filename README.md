@@ -1,2 +1,2 @@
 # AuroraOS
-AuroraOS is an operating system developed bt a complete idiot lol
+AuroraOS is an operating system developed by a complete idiot lol
