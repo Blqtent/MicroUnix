@@ -4,34 +4,34 @@ class Main {
     	var String s;
     	var boolean ok;
 
-        /*
+        
         do Output.printString("Available commands: ");
         do Output.println();
 
         // List of commands:
-        do Output.printString("vim");
+        do Output.printString("ate");
         do Output.println();
-        do Output.printString("chip8");
+        do Output.printString("about");
         do Output.println();
         do Output.println();
-        */
+        
         
 		while (true) {
             let s = Keyboard.readLine("> "); //the prompt
 
             if (String.compare(s,"help") = 0) {
-				do Output.printString("Available commands: ");
+		do Output.printString("Available commands: ");
                 do Output.println();
 
                 // List of commands:
-                do Output.printString("vim");
+                do Output.printString("ate");
                 do Output.println();
-                do Output.printString("");
+                do Output.printString("about");
                 do Output.println();
                 do Output.println();
             }
 
-            else if (String.compare(s,"vim") = 0) {
+            else if (String.compare(s,"ate") = 0) {
 				do ate.main();
             }
 
