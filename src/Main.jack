@@ -37,6 +37,10 @@ class Main {
 
             else if (String.compare(s, "about") = 0) {
                 do Output.printString("AuroraOS 0.1 alpha");
+                do Output.printLn();
+            }
+            else if (String.compare(s, "proclist") = 0) {
+                do do Output.printLn();
             }
 
 			} else {
