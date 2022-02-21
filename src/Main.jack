@@ -16,7 +16,7 @@ class Main {
         do Output.println();
         
         
-		while (true) {
+	while (true) {
             let s = Keyboard.readLine("> "); //the prompt
 
             if (String.compare(s,"help") = 0) {
