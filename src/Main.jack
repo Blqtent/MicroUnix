@@ -1,0 +1,52 @@
+class Main {
+	function void Main {
+		var char c, key;
+    	var String s;
+    	var boolean ok;
+
+        /*
+        do Output.printString("Available commands: ");
+        do Output.println();
+
+        // List of commands:
+        do Output.printString("vim");
+        do Output.println();
+        do Output.printString("chip8");
+        do Output.println();
+        do Output.println();
+        */
+        
+		while (true) {
+            let s = Keyboard.readLine("> "); //the prompt
+
+            if (String.compare(s,"help") = 0) {
+				do Output.printString("Available commands: ");
+                do Output.println();
+
+                // List of commands:
+                do Output.printString("vim");
+                do Output.println();
+                do Output.printString("");
+                do Output.println();
+                do Output.println();
+            }
+
+            else if (String.compare(s,"vim") = 0) {
+				do ate.main();
+            }
+
+            else if (String.compare(s, "about") = 0) {
+                do Output.printString("AuroraOS 0.1 alpha");
+            }
+
+			} else {
+				do Output.printString(s);
+				do Output.printString(": Command not found.");
+			}
+
+            do Output.println();
+	    }
+
+        return;
+	}
+}

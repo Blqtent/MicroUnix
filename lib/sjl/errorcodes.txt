@@ -1,0 +1,4 @@
+Errors
+==============================================================
+
+Code: 1 - Memory.malloc - [size] is less than zero

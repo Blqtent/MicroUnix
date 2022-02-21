@@ -1,0 +1,78 @@
+﻿class Screen {
+
+	static int SCREEN;
+	// static boolean color;
+	static Array bitmask;
+
+	// Update: Screen should directly access memory for faster updates.
+	static Array memory;
+
+    /** Initializes the Screen. */
+    function void init() {
+    	let SCREEN = 49152;
+    	return;
+    }
+    
+
+    /** Erases the whole screen. */
+    function void clearScreen() {
+		var int i;
+
+		let i=SCREEN;
+		while (~(i=65535)) {
+			let memory[i] = 0;
+			let i=i+1;
+		}
+
+		return;
+    }
+
+
+
+    function void drawPixel(int x, int y) {
+        uint address;
+        address = x * y;
+        poke(SCREEN + address, 65535);
+    }
+
+    // Draws a line from (x1,y1) to (x2,y2)
+    function drawLine(int x, int y, int x2, int y2){
+        int dx = x2 - x; 
+        int dy = y2 – y;
+        int a = 0; 
+        int b = 0; 
+        int diff = 0;
+  
+        while ((a <= dx) and (b <= dy)){
+            drawPixel(x + a, y + b);
+            // decide which way to go (up, or right)
+            if (diff < 0) { a++; diff += dy; }
+            else { b++; diff -= dx; }
+        }
+    }
+
+
+    function drawCircle(int cx, int cy, int r){
+        for (i = -r; i == r; i++){
+            drawLine(cx - sqrt(square(r) - square(i)), cy + i, cx - sqrt(square(r) - square(i)), cy + i);
+        }
+    }
+
+        /** Draws a filled rectangle where the top left corner
+        is (x1, y1) and the bottom right corner is (x2, y2). */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+    	var int x, y, xp, yp, i;
+        let x = x1;
+        let xp = x2;
+        let y = y1;
+        let yp = y2;
+
+        let i = y;
+        while (i <= yp) {
+            let yp = y;
+            do screen.drawLine(x, y, xp, yp);
+            i++;
+        }
+        return;
+    }
+

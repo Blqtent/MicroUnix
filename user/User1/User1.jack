@@ -1,0 +1,13 @@
+class user1 {
+	static int UID;
+	static int priority;
+	static bool admin;
+	static int memusage;
+
+	function void inti() {
+		let UID = 0;
+		let priority = 1;
+		let admin = false;
+		let memusage = 100;
+	}
+}

@@ -1,0 +1,93 @@
+/**
+ * A library of commonly used mathematical functions.
+ * UPDATE: The Jack compiler now implements multiplication and division
+ *    using the Hack instruction set.
+ */
+
+class Math {
+    static Array bitArray;
+    /* Initializes the library. */
+    function void init() {
+        let bitArray = Array.new(16); // This uses Memory.alloc so make 
+                                      // sure to run Memory.init() before
+        let bitArray[0] = 1;
+        let bitArray[1] = 2;
+        let bitArray[2] = 4;
+        let bitArray[3] = 8;
+        let bitArray[4] = 16;
+        let bitArray[5] = 32;
+        let bitArray[6] = 64;
+        let bitArray[7] = 128;
+        let bitArray[8] = 256;
+        let bitArray[9] = 512;
+        let bitArray[10] = 1024;
+        let bitArray[11] = 2048;
+        let bitArray[12] = 4096;
+        let bitArray[13] = 8192;
+        let bitArray[14] = 16384;
+        let bitArray[15] = 16384 + 16384;
+        return;
+    }
+
+    /* Returns the absolute value of x. */
+    function int abs(int x) {
+        if (x<0) {
+            return -x;
+        }
+        return x;
+    }
+
+    function int twoToThe(int x) {
+        return bitArray[x];
+    }
+
+    function int xor(int x, int y) {
+        return (x&(~y)) | ((~x)&y);
+    }
+
+    /** Returns i'th bit of x */    
+    function int bitExtract(int x, int i) {
+        if ((x & bitArray[i]) = 0) {
+            return 0;
+        }
+        return 1;
+    }
+
+    /** Returns the integer part of the square root of x. */
+    function int sqrt(int x) {
+        var int low, high, med;
+        let high = 182;
+        let low = 0;
+        
+        while (low < high) {
+            let med = ((high-low)/2) + low;
+            if ((med*med) = x) {
+                return med;
+            }
+            
+            if ((med*med) < x) {
+                let low = med+1;
+            } else {
+                let high = med;
+            }
+        }
+        
+        return med;
+    }
+
+    /** Returns the greater number. */
+    function int max(int a, int b) {
+        if (a>b) {
+            return a;
+        }
+        return b;
+    }
+
+    /** Returns the smaller number. */
+    function int min(int a, int b) {
+        if (a<b) {
+            return a;
+        }
+        return b;
+    }
+}

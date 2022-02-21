@@ -1,0 +1,7 @@
+class kernel {
+	function void kernel(){
+		do Sys.init();
+		do Main.main();
+		return;
+	}
+}
