@@ -1,0 +1,30 @@
+class Process {
+	static int nextPID;
+	static int numOfProcesses;
+	static List ProcList;
+	field int UID;
+	field int size;
+	field int PID;
+
+	function void init(){
+		let nextPID = 0;
+		let numOfProcesses = 0;
+	}
+
+	constructor void Process(int uid, int size, int ProgID, String name) {
+		var String Name;
+		let UID = uid;
+		let pid = nextPID;
+		let Name = String.new(32);
+		let Name = name;
+
+		do Memory.malloc(size);
+		numOfProcesses++;
+		ProcList.append(UID);
+
+	}
+
+	method void kill() {
+		do Memory.free(this);
+	}
+}
