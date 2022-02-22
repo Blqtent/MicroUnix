@@ -70,7 +70,7 @@
         let i = y;
         while (i <= yp) {
             let yp = y;
-            do screen.drawLine(x, y, xp, yp);
+            do screen.drawLine(x, i, xp, i);
             i++;
         }
         return;
