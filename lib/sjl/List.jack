@@ -5,30 +5,30 @@
 
 /** Represents a linked list of integers. */
 class List {
-    field int data;          // a list consists of a data field,
-    field List next;         // followed by a list
+    field Array data;          // a list consists of a data field,
+    field int length;          // followed by a list
+    field int next;
+    field int MaxLength;
 
     /* Creates a List. */
-    constructor List new(int car, List cdr) {
-        let data = car;       // the identifiers car and cdr are used in 
-        let next = cdr;       // memory of the Lisp programming language
+    constructor List new(int maxLength) {
+        let data = Array.new(maxLength);
+        let MaxLength = maxLength;
+        let length = 0;
+        let next = 0;
         return this;
     }
 
     /** Accessors. */
     method int getData() { return data; }
-    method int getNext() { return next; }
+    method int getLength() { return length; }
 
     /** Prints this list. */
     method void print() {
-        var List current;    // initializes current to the first item
-        let current = this;  // of this list
-        while (~(current = null)) {
-            do Output.printInt(current.getData());
-            do Output.printChar(32); // prints a space
-            let current = current.getNext();
+        while (~(next == MaxLength)) {
+            do Output.printChar(data[next]);
+            do Output.printChar(32);
         }
-        return;
     }
 
     /** Disposes this List by recursively disposing its tail. */
@@ -41,14 +41,19 @@ class List {
         return;
     }
 
-    method void append(integer data) {
-        if (next = 0) {
-            let next = List.new(data);
-        } else {
-            do next.append(data);
-        }
+    method void append(int Data) {
+        let data[next] = Data;
+        next++;
         return;
     }
-    //UNFINISHED
+    
+    method void delete(int o) {
+        do Memory.free(data[o]);
+        return;
+    }
+    
+    method void deleteLast() {
+        do Memory.free(data[next-1]);
+    }
 
 }
