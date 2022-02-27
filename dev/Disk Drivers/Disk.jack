@@ -1,0 +1,60 @@
+class Disk {
+    // array for flat disk memory
+    static Array dmem;
+
+    function void init() {
+        let dmem = 524288;
+        return;
+    }
+    
+    function int peek(int address) {
+        return dmem[address];
+    }
+    
+    function void poke(int address, int value) {
+        let dmem[address] = value;
+        return;
+    }
+}
+
+
+    function Array findSegment(int size) {
+        var Array segment;
+        let segment = freeList;
+        while (segment[1] < size) {
+            let segment = segment[0];
+        }
+        return segment;
+    }
+
+    function int alloc() {
+        var Array segment;
+        var Array rest;
+        var int restSize;
+        var int xsize;
+
+        let xsize = 4096 + 2;
+        let segment = Memory.findSegment(xsize);
+        if (segment = 0) {
+            do Sys.error("cannot find segment for alloc");
+            return -1;
+        }
+        let restSize = segment[1] - xsize;
+        if ((restSize > xsize) | (restSize > 10)) {
+            let rest = segment + xsize;
+            let rest[0] = freeList;
+            let rest[1] = restSize - 2;
+            let freeList = rest;
+            let segment[1] = size;
+        }
+        return segment + 2;
+    }
+
+    function void free(Array o) {
+        var Array segment;
+        let segment = o - 2;
+        let segment[0] = freeList;
+        let freeList = segment;
+        return;
+    }
+}
