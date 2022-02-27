@@ -1,0 +1,23 @@
+#include "JackLinker.jack"
+
+class File {
+	field String Name;
+	field int length;
+	field int MaxLength;
+	field String data;
+
+	constructer void File new(String name, int MaxSize, String Data) {
+		let Name = name;
+		let MaxLength = MaxSize;
+		let data = Data;
+		let address = Disk.alloc();
+		do Disk.poke(address, data)
+		return;;
+	}
+
+	// returns 1 when succesful
+	method int delete() {
+		do Disk.free(this);
+		return 1;
+	}
+}
