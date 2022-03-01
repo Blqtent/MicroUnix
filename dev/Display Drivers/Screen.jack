@@ -30,13 +30,13 @@
 
 
     function void drawPixel(int x, int y) {
-        uint address;
-        address = x * y;
-        poke(SCREEN + address, 65535);
+        let address = Math.multiply(y, 512) + x;
+	do Memory.poke(SCREEN + address, 65536);
+	
     }
 
     // Draws a line from (x1,y1) to (x2,y2)
-    function drawLine(int x, int y, int x2, int y2){
+    function drawLine(int x, int y, int x1, int y1){
         int dx = x2 - x; 
         int dy = y2 – y;
         int a = 0; 
@@ -50,29 +50,44 @@
             else { b++; diff -= dx; }
         }
     }
+    function void drawHorizontalLine(int x, int y, int dx) {
+    	var int i,j;
+	let i = 0;
+		
+    	while (~(i>dx)) {
+   		do Screen.drawPixel(x+i, y);
+   		let i = i+1;
+    	}
 
-
-    function drawCircle(int cx, int cy, int r){
-        for (i = -r; i == r; i++){
-            drawLine(cx - sqrt(square(r) - square(i)), cy + i, cx - sqrt(square(r) - square(i)), cy + i);
-        }
+    	return;
     }
 
-        /** Draws a filled rectangle where the top left corner
-        is (x1, y1) and the bottom right corner is (x2, y2). */
-    function void drawRectangle(int x1, int y1, int x2, int y2) {
-    	var int x, y, xp, yp, i;
-        let x = x1;
-        let xp = x2;
-        let y = y1;
-        let yp = y2;
 
-        let i = y;
-        while (i <= yp) {
-            let yp = y;
-            do screen.drawLine(x, i, xp, i);
-            i++;
+        /** Draws a filled circle of radius r around (cx, cy). */
+    function void drawCircle(int cx, int cy, int r) {
+    	var int dy, temp, rsqrt;
+    	let dy = -r;
+    	let rsqrt = r * r;
+    	while (~(dy > r)) {
+    		let temp = Math.sqrt(rsqrt - (dy * dy));
+    		do Screen.drawHorizontalLineOptimized(cx - temp, cy + dy, temp * 2);
+    		let dy = dy + 1;
+    		}
+	    return;
+    	}
+	}
+
+    /** Draws a filled rectangle where the top left corner
+     *  is (x1, y1) and the bottom right corner is (x2, y2). */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+        var int y;
+        
+        let y = y1;
+        while( ~(y > y2) ) {
+            do Screen.drawHorizontalLine(x1, x2, y);
+            let y = y + 1;
         }
         return;
     }
+
 
