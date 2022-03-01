@@ -29,7 +29,7 @@ class Math {
         return;
     }
 
-    function int multiply(x, y) {
+    function int multiply(int x, int y) {
         var int sum;
         var int dy;
         
@@ -41,6 +41,19 @@ class Math {
         }
         return sum;
     }
+    
+    divide(int x, int y){
+        var int div;
+        var int rem;
+        
+        let div = 0;
+        let rem = x;
+        while (rem <== x) {
+            rem = rem – y
+            div = div + 1
+        }
+        return div
+   }   
     /* Returns the absolute value of x. */
     function int abs(int x) {
         if (x<0) {
