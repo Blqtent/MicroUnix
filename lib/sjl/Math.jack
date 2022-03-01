@@ -71,7 +71,7 @@ class Math {
     }
 
     /** Returns i'th bit of x */    
-    function int bitExtract(int x, int i) {
+    function int bit(int x, int i) {
         if ((x & bitArray[i]) = 0) {
             return 0;
         }
@@ -80,24 +80,16 @@ class Math {
 
     /** Returns the integer part of the square root of x. */
     function int sqrt(int x) {
-        var int low, high, med;
-        let high = 182;
-        let low = 0;
+        var int dx;
+        var int answer;
         
-        while (low < high) {
-            let med = ((high-low)/2) + low;
-            if ((med*med) = x) {
-                return med;
-            }
-            
-            if ((med*med) < x) {
-                let low = med+1;
-            } else {
-                let high = med;
-            }
+        let dx = x;
+        let answer = 0;
+        while (~(answer == x)) {
+            answer = answer * answer;
+            answer++;
         }
         
-        return med;
     }
 
     /** Returns the greater number. */
