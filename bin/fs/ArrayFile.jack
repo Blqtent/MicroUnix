@@ -1,0 +1,44 @@
+#include "JackLinker.jack"
+#include "fs.jack"
+#include "Disk.jack"
+#include "DiskArray.jack"
+
+class ArrayFile {
+	field String Name;
+	field Array Data;
+	field DiskArray fileData
+
+	constructer void ArrayFile new(String name, Array data) {
+		var int i;
+
+		let fileData = DiskArray new(4096);
+		let i = 0;
+		let Name = name;
+		let Data = Array new(4096);
+		let Data = data;
+		
+		while (i < 4095) {
+			let fileData[i] = Data[i];
+			i++;
+		}
+
+	} 
+
+	// returns 1 when succesful
+	method int delete() {
+		do Disk.free(this);
+		return 1;
+	}
+
+	method char dump() {
+		var int i;
+		
+		let i = 0;
+		
+		while (i < 4096) {
+			do Output.printChar(fileData[i]);
+		}
+
+	}
+	
+}
