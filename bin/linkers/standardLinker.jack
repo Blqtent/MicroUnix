@@ -1,0 +1,30 @@
+// StandardLinker
+
+// Jack Linker
+
+#include "Array.jack"
+#include "Fraction.jack"
+#include "List.jack"
+#include "Math.jack"
+#include "Memory.jack"
+#include "String.jack"
+#include "Sys.jack"
+
+// KernelToBinary
+
+#include "fs.jack"
+#include "proccess.jack"
+
+//KernelToDevices
+
+#include "Screen.jack"
+#include "Output.jack"
+#include "Keyboard.jack"
+#include "Disk.jack"
+
+//some setup code; not needed
+class StandardLinker {
+	function void main(){
+		return;
+	}
+}

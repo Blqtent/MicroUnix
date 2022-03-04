@@ -1,0 +1,12 @@
+//KernelToDevices
+
+#include "Screen.jack"
+#include "Output.jack"
+#include "Keyboard.jack"
+
+//setup code; not needed
+class KernelToDevLinker {
+	function void main() {
+		return;
+	}
+}
