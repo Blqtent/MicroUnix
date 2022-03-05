@@ -1,0 +1,378 @@
+class Chip8 {
+    // CPU:
+    static int I;
+    static int PC;
+    static Array V;
+
+    // RAM:
+    static int SP;
+    static Array RAM;
+    static Array Stack;
+
+    // Timers:
+    static int delayTimer;
+    static int soundTimer;
+
+    // Outline:
+    static int bx;
+    static int by;
+
+    function void init() {
+        // CPU:
+        let I = 0;
+        let PC = 512;
+        let V = Array.new(16);
+
+        // RAM:
+        let RAM = Array.new(4096);
+        let Stack = Array.new(16);
+
+        // Outline:
+        let bx = 50;
+        let by = 50;
+        return;
+    }
+
+    function void main() {
+        var int opcode;
+        do Output.printString("Loading ROM: Zero.ch8");
+
+        do init();
+        do drawBox();
+        do loadRom();
+
+        while (true) {
+            let opcode = fetch();
+            do Chip8.execute(opcode);
+        }
+        return;
+    }
+
+    function void drawBox() {
+        do Screen.drawLine(bx,    by,    bx+64,  by);      // top
+        do Screen.drawLine(bx,    by,    bx,     by+32);   // left
+        do Screen.drawLine(bx+64, by,    bx+64,  by+32);   // right
+        do Screen.drawLine(bx,    by+32, bx+64,  by+32);   // bottom
+        return;
+    }
+
+    function void loadRom() {
+        var int i;
+        let i=0;
+
+        // Hard-coded: getting ROM from disk.
+        while (i<144) {
+            let RAM[i+512] = Disk.peek(i);
+            let i=i+1;
+        }
+    }
+
+    function int fetch() {
+        return ((RAM[PC+1]) | (RAM[PC]*256));
+    }
+
+    function void setGfx(int row, int column, boolean color) {
+        // TODO: check for bounds.
+        do Screen.setColor(color);
+        do Screen.drawPixel(bx+column, by+row);
+        return;
+    }
+
+    function boolean getGfx(int row, int column) {
+        if (Screen.getPixel(bx+column, by+row)=0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function void push(int address) {
+        let Stack[SP] = address;
+        let SP = SP+1;
+        return;
+    }
+
+    function int pop() {
+        let SP = SP-1;
+        return Stack[SP];
+    }
+
+    function int getVF() {
+        return V[15];
+    }
+
+    function void setVF(int x) {
+        let V[15] = x;
+        return;
+    }
+
+    function void execute(int opcode) {
+        var int upper;
+        var int lower;
+        var int rand;
+
+        var int X,Y,N,NN;
+        var int i,j,sum;
+
+        var boolean collisionFlag;
+        var int switchLower;
+        var int currentByte;
+        var int currentBit;
+        var int actualBit;
+
+        //TODO: generate random number. (<256)
+        let rand=128;
+
+        let upper = (opcode & 61440) / 4096;
+        let lower = opcode & 4095;
+
+        if (upper=0) {
+            if (lower=224) {
+                let i=0;
+                while (i<32) {
+                let j=0;
+                    while (j<64) {
+                        do Chip8.setGfx(i,j,false);
+                        let j=j+1;
+                    }
+                    let i=i+1;
+                }
+            }
+
+            if (lower=238) {
+                let PC = pop();
+            }
+
+            do Output.printString("Unimplemented upper=0, lower=");
+            do Output.printInt(lower);
+            do Sys.halt();
+        }
+
+        if (upper=1) {
+            // 1NNN: jump to NNN.
+            let PC = lower-2;
+        }
+
+        if (upper=2) {
+            // 2NNN: call subroutine at NNN.
+            do Chip8.push(PC);
+            let PC = lower-2;
+        }
+
+        if (upper=3) {
+            let X = (lower&3840)/256;
+            let NN = (lower&255);
+            if (V[X]=NN) {
+                let PC = PC+2;
+            }
+        }
+
+        if (upper=4) {
+            let X = (lower&3840)/256;
+            let NN = (lower&255);
+            if (~(V[X]=NN)) {
+                let PC = PC+2;
+            }
+        }
+
+        if (upper=5) {
+            let X = (lower&3840)/256;
+            let Y = (lower&240)/16;
+            if (V[X]=V[Y]) {
+                let PC = PC+2;
+            }
+        }
+        
+        if (upper=6) {
+            let X = (lower&3840)/256;
+            let NN = (lower&255);
+            let V[X] = NN;
+        }
+
+        if (upper=7) {
+            let X = (lower&3840)/256;
+            let NN = (lower&255);
+            let V[X] = (V[X]+NN) & 255;
+        }
+
+        if (upper=8) {
+            let X = (lower&3840)/256;
+            let Y = (lower&240)/16;
+            let switchLower = (lower&15);
+
+            if (switchLower=0) { let V[X] = V[Y]; }
+            if (switchLower=1) { let V[X] = (V[X] | V[Y]); }
+            if (switchLower=2) { let V[X] = (V[X] & V[Y]); }
+            if (switchLower=3) { let V[X] = (V[X] ^ V[Y]); }
+            
+            if (switchLower=4) {
+                let sum = V[X] + V[Y];
+                let V[X] = sum&255;
+
+                if (sum>255) {
+                    let V[15] = 1;
+                } else {
+                    let V[15] = 0;
+                }
+            }
+
+            
+            if (switchLower=5) {
+                let sum = V[X] - V[Y];
+                let V[X] = sum & 255;
+
+                if (sum<0) {
+                    let V[15] = 0;
+                } else {
+                    let V[15] = 1;
+                }
+            }
+
+            if (switchLower=6) {
+                let V[15] = V[X]&1;
+                let V[X] = V[X]/2;
+            }
+
+            if (switchLower=7) {
+                let sum = V[Y] - V[X];
+                let V[X] = sum & 255;
+
+                if (sum<0) {
+                    let V[15] = 0;
+                } else {
+                    let V[15] = 1;
+                }
+            }
+
+            if (switchLower=14) {
+                let V[15] = (V[X]/128)&1;
+                let V[X] = V[X]*2;
+            }
+        }
+
+        if (upper=9) {
+            let X = (lower&3840)/256;
+            let Y = (lower&240)/16;
+
+            if (~(V[X]=V[Y])) {
+                let PC = (PC+2);
+            }
+        }
+
+        if (upper=10) {
+            let I=lower;
+        }
+
+        if (upper=11) {
+            let PC = V[0] + lower - 2;
+        }
+
+        if (upper=12) {
+            let X = (lower&3840)/256;
+            let NN = (lower&255);
+            let V[X] = (rand&NN);
+        }
+
+        if (upper=13) {
+            let X = (lower&3840)/256;
+            let Y = (lower&240)/16;
+            let N = (lower&15);
+            let collisionFlag = false;
+
+            let j=0;
+            while (j<N) {
+                let currentByte = RAM[I+j];
+                let i=0;
+                while (i<8) {
+                    let currentBit = (currentByte/Math.twoToThe(7-i)) & 1;
+                    let actualBit = Chip8.getGfx(V[Y]+j, V[X]+i);
+            
+                    if ((currentBit=1) & (currentBit=actualBit)) {
+                        let collisionFlag = true;
+                    }
+
+                    if ((currentBit^actualBit)=1) {
+                        do Chip8.setGfx(V[Y]+j, V[X]+i, true);
+                    } else {
+                        do Chip8.setGfx(V[Y]+j, V[X]+i, false);
+                    }
+
+                    let i=i+1;
+                }
+                let j=j+1;
+            }
+
+            if (collisionFlag=1) {
+                let V[15] = 1;
+            } else {
+                let V[15] = 0;
+            }
+        }
+
+        if (upper=14) {
+            // TODO: Implement this opcode.
+            do Output.printString("Unimplemented upper=14.");
+            do Sys.halt();
+        }
+
+        if (upper=15) {
+            let X = (lower&3840)/512;
+            let switchLower = lower&255;
+
+            if (switchLower=7) {
+                let V[X] = delayTimer;
+            }
+
+            if (switchLower=10) {
+                //TODO: Implement this opcode.
+                do Output.printString("Unimplemented upper=15, lower=10.");
+                do Sys.halt();
+            }
+
+            if (switchLower=21) {
+                let delayTimer = V[X];
+            }
+
+            if (switchLower=24) {
+                let soundTimer = V[X];
+            }
+
+            if (switchLower=30) {
+                let I = I+V[X];
+            }
+
+            if (switchLower=41) {
+                let I = V[X]*5;
+            }
+
+            if (switchLower=51) {
+                let RAM[I] = (V[X]/100)%10;
+                let RAM[I+1] = (V[X]/10)%10;
+                let RAM[I+2] = V[X]%10;
+            }
+
+            if (switchLower=85) {
+                let i=0;
+                while (i<16) {
+                    let RAM[I+i] = V[i];
+                    let i=i+1;
+                }
+            }
+
+            if (switchLower=101) {
+                let i=0;
+                while (i<16) {
+                    let V[i] = RAM[I+i];
+                }
+            }
+
+            if (~(switchLower=21)) {
+                do Output.printInt(switchLower);
+                do Sys.halt();
+            }
+        }
+
+        let PC = PC+2;
+        return;
+    }
+}
