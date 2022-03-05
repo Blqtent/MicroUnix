@@ -9,6 +9,7 @@
 #include "Memory.jack"
 #include "String.jack"
 #include "Sys.jack"
+#include "Random.jack
 
 // KernelToBinary
 
