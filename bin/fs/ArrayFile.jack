@@ -1,7 +1,4 @@
-#include "JackLinker.jack"
-#include "fs.jack"
-#include "Disk.jack"
-#include "DiskArray.jack"
+
 
 class ArrayFile {
 	field String Name;
