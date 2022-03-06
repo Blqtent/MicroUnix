@@ -1,6 +1,6 @@
 //TODO: keep a text buffer.
 
-class ate {
+class Vim {
 	static int cx;
 	static int cy;
 
