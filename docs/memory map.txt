@@ -1,1 +1,8 @@
+memory size: 65,536
+
+0 - 2047 = stack, virtual memory segments, blah blah blah
+2048 - 57341 = heap
+57342 - 65534 = screen MMIO
+65535 = Keyboard MMIO
+
 
