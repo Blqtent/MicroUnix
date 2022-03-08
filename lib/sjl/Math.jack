@@ -31,18 +31,19 @@ class Math {
 
     function int multiply(int x, int y) {
         var int sum;
-        var int dy;
-        
-        let dy = y;
         let sum = 0;
-        while (dy > 0)
-            sum = sum + x;
-            dy--;
+        
+        var int j;
+        let j = y;
+        
+        while (~(j == 0)) {
+            sum += x;
+            j--;
         }
         return sum;
     }
     
-    divide(int x, int y){
+    function int divide(int x, int y){
         var int div;
         var int rem;
         
