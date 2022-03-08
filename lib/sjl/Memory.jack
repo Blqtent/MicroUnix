@@ -8,8 +8,8 @@ class Memory {
         let ram = 0;
         let heap = 16353;
         let freeList = heap;
-        let heap[0] = 0;
-        let heap[1] = 49152;
+        let heap[0] = 0; //
+        let heap[1] = 55293;
         return;
     }
 
