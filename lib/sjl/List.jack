@@ -1,59 +1,80 @@
-// This file is part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: projects/09/List/List.jack
+/**
+* linked List of Objects
+*/
+class List{
+	field int data;
+	field List next;
 
-/** Represents a linked list of integers. */
-class List {
-    field Array data;          // a list consists of a data field,
-    field int length;          // followed by a list
-    field int next;
-    field int MaxLength;
+	/** construct a new List object */
+	constructor List new(int car, List cdr){
+		let data = car;
+		let next = cdr;
+		return this;
+	}
 
-    /* Creates a List. */
-    constructor List new(int maxLength) {
-        let data = Array.new(maxLength);
-        let MaxLength = maxLength;
-        let length = 0;
-        let next = 0;
-        return this;
-    }
+	/** dispose recursively the list */
+	method void dispose(){
+		if (~(next = null)){
+			do next.dispose();
+		}
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	/** get the car */
+	method int getData(){
+		return data;
+	}
 
-    /** Accessors. */
-    method int getData() { return data; }
-    method int getLength() { return length; }
+	/** get the cdr */
+	method List getNext(){
+		return next;
+	}
 
-    /** Prints this list. */
-    method void print() {
-        while (~(next == MaxLength)) {
-            do Output.printChar(data[next]);
-            do Output.printChar(32);
-        }
-    }
+	/** dispose only the first element of the list, and return the cdr */
+	method List pop(){
+		var List l;
+		var String s;
+		let l = next;
+		let s = data;
+		do s.dispose();
+		do Memory.deAlloc(this);
+		return l;
+	}
+	
+	/** return the total number of bytes stored in a linked list of String objects */
+	function int getLength(List l){
+		var String s;
+		if (l=null){
+			return 0;
+		}
+		let s = l.getData();
+		return s.length()+ List.getLength(l.getNext());
+	}
 
-    /** Disposes this List by recursively disposing its tail. */
-    method void dispose() {
-        if (~(next = null)) {
-            do next.dispose();
-        }
-        // Uses an OS routine to recycle this object.
-        do Memory.deAlloc(this);
-        return;
-    }
+	/** scan recursevly the list, find the element d and remove it from the list */
+	function List remove(int d, List l){
+		var List m;
+		if (l = null){
+			return null;
+		}
+		if (l.getData() = d){
+			let m = List.remove(d,l.getNext());
+		} else {
+			let m = List.new(l.getData(),List.remove(d,l.getNext()));
+		}
+		do Memory.deAlloc(l);
+		return m;
+	}
 
-    method void append(int Data) {
-        let data[next] = Data;
-        next++;
-        return;
-    }
-    
-    method void delete(int o) {
-        do Memory.free(data[o]);
-        return;
-    }
-    
-    method void deleteLast() {
-        do Memory.free(data[next-1]);
-    }
+	/** append d at the end of the list */
+	method void append(int d){
+		if (next = null){
+			let next = List.new(d,null);
+			return;
+		}
+		do next.append(d);
+		return;
+	}
 
 }
