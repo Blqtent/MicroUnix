@@ -8,6 +8,6 @@ mem bank 0:
 10242 = UART MMIO
 10243 - 10251 = digital GPIO
 10252 - 18444 = External ROM MMIO
-
+ 
 
 
