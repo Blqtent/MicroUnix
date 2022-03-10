@@ -1,4 +1,4 @@
-memory size: 262144 bytes
+memory size: 524288 bytes
 
 mem bank 0:
 
@@ -10,5 +10,7 @@ mem bank 0:
 10252 - 26636 = External ROM MMIO
 26637 = CableNet In
 26638 = CableNet Out
+
+mem bank 1:
 
 
