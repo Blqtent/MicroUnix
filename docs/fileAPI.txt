@@ -1,0 +1,43 @@
+	constructor File new(String path, boolean writing)
+		path:    path of the file or directory.
+		writing: true if you want write to the file.
+		return:  an object of type File.
+
+	method String getName()
+		return: the path.
+
+	method boolean isdir()
+		return: true if path is a directory.
+
+	method boolean open()
+		return: true if the file has been successfuly opened.
+
+	method int readByte()
+		return: a single byte read from the file or -1 if the
+			end of file has been reached.
+	
+	method String readLine(String buffer)
+		return: a line from the file or `null` if end of file has
+			been reached.
+
+	method int seek(int position)
+		Move the current byte position in the file 
+		for writing or reading.
+		return: position if successful.
+
+	method int writeByte(int data)
+		return: 1 if a single byte "data" has been writen to the file.
+
+	method int writeString(String s)
+		return: the length of the "s" String successfuly writen to 
+		        the file.
+
+	method boolean remove()
+		return: true if the file or directory has been deleted.
+
+	method boolean mkdir()
+		return: true if the directory has been created successfuly.
+
+	method Buffer list()
+		return: a Buffer containing the list of files or directories
+			in the "path" directory.
