@@ -7,7 +7,8 @@ mem bank 0:
 10241 = Keyboard MMIO
 10242 = UART MMIO
 10243 - 10251 = digital GPIO
-10252 - 18444 = External ROM MMIO
- 
+10252 - 26636 = External ROM MMIO
+26637 = CableNet In
+26638 = CableNet Out
 
 
