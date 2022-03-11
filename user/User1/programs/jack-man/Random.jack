@@ -1,0 +1,49 @@
+class Random {
+    // random seed
+    static int seed;
+
+    // generate seed when key pressed
+    function void seed() {
+        var int key;
+        let key = 0;
+        // increment seed until key pressed
+        while(~key) {
+            let seed = seed + 1;
+            // loop around
+            if (seed = 32767) {
+                let seed = 0;
+            }
+            let key = Keyboard.keyPressed();
+        }
+        return;
+    }
+
+    // get a random number 0 to 32767
+    function int rand() {
+        let seed = seed + 20251;
+        if (seed < 0) {
+            let seed = seed - 32767 - 1;
+        }
+        return seed;
+    }
+
+    // get a number 0 to max
+    function int randRange(int max) {
+        var int mask, randValue;
+        let mask = 1;
+        while (mask < max) {
+            let mask = mask * 2 + 1;
+        }
+        let randValue = Random.rand() & mask;
+        while (randValue > max) {
+            let randValue = Random.rand() & mask;
+        }
+        return randValue;
+    }
+
+    method void dispose() {
+    	do Memory.deAlloc(this);
+        return;
+    }
+}
+

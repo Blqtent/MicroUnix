@@ -1,0 +1,47 @@
+class Pellet {
+  // position of pellet
+  field int x, y;
+  // whether pellet has been collected or not
+  field boolean collected;
+  // size of pellet
+  field int size;
+
+  constructor Pellet new(int xi, int yi) {
+    let x = xi;
+    let y = yi;
+    let size = 2;
+    let collected = false;
+    return this;
+  }
+
+  // draw dot - black if not collected
+  method void draw() {
+    do Screen.setColor(~collected);
+    do Screen.drawRectangle(x, y, x+size-1, y+size-1);
+    return;
+  }
+
+  // set as collected
+  method void setCollected() {
+    let collected = true;
+    return;
+  }
+
+  // get collected status
+  method boolean isCollected() {
+    return collected;
+  }
+
+  method boolean checkOverlapping(int x1, int y1, int x2, int y2) {
+    return (
+      (x1 < (x + size)) & (x2 > (x - 1))
+    ) & (
+      (y1 < (y + size)) & (y2 > (y - 1))
+    );
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+}

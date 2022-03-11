@@ -1,0 +1,26 @@
+class Main {
+  function void main() {
+    var int key;
+    var Game game;
+    // display splash screen
+    do Splash.show();
+    // set seed for random number generator
+    do Random.seed();
+    // clear screen when seeded
+    do Screen.clearScreen();
+    // create game and initialize objects
+    let game = Game.new();
+    do game.init();
+    // game loop
+    while (true) {
+      do game.next();
+      // check for keyboard input
+      let key = Keyboard.keyPressed();
+      // if a key is pressed, handle key
+      if (~(key = 0)) {
+        do game.handleKey(key);
+      }
+    }
+    return;
+  }
+}

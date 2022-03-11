@@ -1,0 +1,49 @@
+class Score {
+  // current score
+  field int score;
+  // high score
+  field int high;
+  // pellets reference
+  field Pellets pellets;
+
+  constructor Score new(Pellets p) {
+    let score = 0; // start at 0 points
+    let pellets = p;
+    return this;
+  }
+
+  method void init() {
+    // draw score and high score
+    do draw();
+    return;
+  }
+
+  method void next() {
+    // calculate new score
+    var int nextScore;
+    let nextScore = pellets.getCapturedCount() * 10;
+    if (~(nextScore = score)) {
+      let score = nextScore;
+      // update high score
+	    if (score > high) {
+		    let high = score;
+      }
+      // draw new scores
+      do draw();
+    }
+    return;
+  }
+
+  method void draw() {
+    do Output.moveCursor(3, 46); // row, col
+    do Output.printInt(score);
+	  do Output.moveCursor(7, 46); // row, col
+    do Output.printInt(high);
+    return;
+  }
+  
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+}
