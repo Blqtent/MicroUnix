@@ -9,17 +9,22 @@ class Vim {
 		do Output.printString("Welcome to MicroVim");
 		do Output.printString("what do you wanna call this text file?")
 		let name = Keyboard.readLine();
-		let f = File.new(name, true);
 		return;
 	}
 	
 	function boolean Main (){
-		var char x;
+		var String x;
+		let x = String.new(128);
 		do Vim.init();
+		let f = File.new(name, true);
+		do f.open();
+		
 		while (~(x == 140)) {
-			let x = Keyboard.readChar();
-			
+			let x = Keyboard.readLine();
+			do f.writeLine(x);
 		}
+		do x.dispose();
+		return true;
 	}
 	
 }
