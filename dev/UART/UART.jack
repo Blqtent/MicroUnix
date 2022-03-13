@@ -6,13 +6,13 @@ class UART {
 		return;
 	}
   
-	function int readChar() {
+	function char readChar() {
 		var int data;
 		let data = Memory.peek(uart);
 		return data;
    	}
 
-   	function void writeChar(int c){
+   	function void writeChar(char c){
 		do Memory.poke(uart, c);
    	}
 	
