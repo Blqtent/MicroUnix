@@ -165,4 +165,32 @@ class String {
             }
         }
     }
+
+
+    method String copy() {
+		var String s;
+		var int j, l;
+		let j = 0;
+		let l = length();
+		let s = String.new(l + 1);
+		while (j < l) {
+			let s = s.appendChar(charAt(j));
+			let j = j + 1;
+		}
+		return s;
+	}
+    
+    method String appendString(String p) {
+		var int j, l;
+		var String s;
+		let s = this;
+		let j = 0;
+		let l = p.length();
+		//do Output.printString(this);
+		while (j < l) {
+			let s = s.appendChar(p.charAt(j));
+			let j = j + 1;
+		}
+		return this;
+	}
 }
