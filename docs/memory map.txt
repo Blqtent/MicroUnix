@@ -20,3 +20,7 @@ mem bank 1:
 mem bank 2 & 3:
 
 131073 - 262143 = code segment for processes
+
+
+flash ssd size: 524288
+max file size: 8192 words
