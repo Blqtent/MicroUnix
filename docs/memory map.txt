@@ -1,4 +1,4 @@
-memory size: 524288 bytes
+memory size: 262144 bytes
 
 mem bank 0:
 
@@ -11,8 +11,12 @@ mem bank 0:
 26637 = CableNet In
 26638 = CableNet Out
 26639 = CableNet IP address
+26640 - 65535 = kernel code
 
 mem bank 1:
 
 65536 - 131072 = heap
 
+mem bank 2 & 3:
+
+131073 - 262143 = code segment for processes
