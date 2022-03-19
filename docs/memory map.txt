@@ -10,7 +10,9 @@ mem bank 0:
 10252 - 26636 = External ROM MMIO
 26637 = CableNet In
 26638 = CableNet Out
+26639 = CableNet IP address
 
 mem bank 1:
 
+65536 - 131072 = heap
 
